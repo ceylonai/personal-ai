@@ -1,0 +1,8 @@
+[package]
+name = "ai-service"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+lancedb = "0.14.1"
+tokio = "1.42.0"
