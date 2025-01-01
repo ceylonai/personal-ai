@@ -1,6 +1,8 @@
 import {createBrowserRouter, RouterProvider} from "react-router";
-import Dashboard from "@/app/pages/dashboard.tsx";
+import Page from "@/app/pages/dashboard/page.tsx";
 import App from "@/App.tsx";
+import ProjectCreationPage from "@/app/pages/dashboard/project/create/page.tsx";
+import ProjectUI from "@/app/pages/dashboard/project/view/page.tsx";
 
 const routes = createBrowserRouter([
     {
@@ -9,7 +11,15 @@ const routes = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <Dashboard/>,
+        element: <Page/>,
+    },
+    {
+        path: "/project/create",
+        element: <ProjectCreationPage/>,
+    },
+    {
+        path: "/project/view/:projectId",
+        element: <ProjectUI/>,
     },
 ]);
 const AppRoutes = () => {
