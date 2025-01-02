@@ -2,24 +2,8 @@ import {create} from 'zustand'
 import {useMutation, useQuery} from '@tanstack/react-query'
 import {queryClient} from "@/lib/react-query.ts";
 import {invoke} from "@tauri-apps/api/core";
+import {CreateProjectDTO, Project} from '@/types/model';
 
-// Types
-export type Project = {
-    id: string
-    projectName: string
-    description: string
-    projectType: string
-    tags: string[]
-    createdAt: string
-    updatedAt: string
-}
-
-export type CreateProjectDTO = {
-    projectName: string
-    description: string
-    projectType: string
-    tags: string[]
-}
 
 interface ProjectState {
     // State
@@ -36,20 +20,12 @@ interface ProjectState {
 // API functions (you'll need to implement these based on your backend)
 const projectApi = {
     createProject: async (project: CreateProjectDTO): Promise<Project> => {
-
-        console.log(project,`${project.tags}`)
-
-        const res = await invoke("save_project", {
+        return await invoke<Project>("save_project", {
             title: project.projectName,
             description: project.description,
             tags: `${project.tags}`,
             type: project.projectType
         })
-
-        console.log(res)
-
-
-        return {} as Project
     },
 
     getProjects: async (): Promise<Project[]> => {

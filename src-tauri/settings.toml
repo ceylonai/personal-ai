@@ -1,0 +1,2 @@
+[db]
+uri = "sqlite://db/ceylon-ai-app-db.sqlite?mode=rwc"

@@ -40,6 +40,10 @@ impl ProjectService {
     pub async fn find_project(&self, id: i32) -> Result<Option<project::Model>, DbErr> {
         project::Entity::find_by_id(id).one(&self.db).await
     }
+
+    pub async fn find_all_projects(&self) -> Result<Vec<project::Model>, DbErr> {
+        project::Entity::find().all(&self.db).await
+    }
 }
 
 #[cfg(test)]

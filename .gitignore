@@ -27,3 +27,4 @@ target
 data
 
 *.sqlite
+*/db
