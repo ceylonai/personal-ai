@@ -1,9 +1,13 @@
 mod services;
+pub mod model;
 
 use migration::{Migrator, MigratorTrait};
 
 use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
 use std::time::Duration;
+
+pub use services::*;
+pub use model::*;
 
 pub async fn connect(db_path: &str) -> Result<DatabaseConnection, DbErr> {
     let mut opt = ConnectOptions::new(db_path);

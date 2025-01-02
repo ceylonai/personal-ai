@@ -1395,11 +1395,13 @@ checksum = "6d43a04d8753f35258c91f8ec639f792891f748a1edbd759cf1dcea3382ad83c"
 name = "ceylon-ai-app"
 version = "0.1.0"
 dependencies = [
+ "db-service",
  "serde",
  "serde_json",
  "tauri",
  "tauri-build",
  "tauri-plugin-opener",
+ "tokio",
 ]
 
 [[package]]
@@ -2272,6 +2274,7 @@ dependencies = [
  "log",
  "migration",
  "sea-orm",
+ "serde",
  "sqlx",
  "tokio",
 ]

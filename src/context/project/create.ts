@@ -1,6 +1,7 @@
 import {create} from 'zustand'
 import {useMutation, useQuery} from '@tanstack/react-query'
 import {queryClient} from "@/lib/react-query.ts";
+import {invoke} from "@tauri-apps/api/core";
 
 // Types
 export type Project = {
@@ -35,19 +36,20 @@ interface ProjectState {
 // API functions (you'll need to implement these based on your backend)
 const projectApi = {
     createProject: async (project: CreateProjectDTO): Promise<Project> => {
-        const response = await fetch('/api/projects', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(project),
+
+        console.log(project,`${project.tags}`)
+
+        const res = await invoke("save_project", {
+            title: project.projectName,
+            description: project.description,
+            tags: `${project.tags}`,
+            type: project.projectType
         })
 
-        if (!response.ok) {
-            throw new Error('Failed to create project')
-        }
+        console.log(res)
 
-        return response.json()
+
+        return {} as Project
     },
 
     getProjects: async (): Promise<Project[]> => {
@@ -108,25 +110,3 @@ export const useProjects = () => {
         queryFn: projectApi.getProjects,
     })
 }
-
-// Example usage in your component:
-/*
-import { useCreateProject } from '@/stores/project-store'
-
-export default function ProjectCreationScreen() {
-  const { mutate: createProject, isLoading } = useCreateProject()
-
-  const onSubmit = (data: FormData) => {
-    createProject({
-      projectName: data.projectName,
-      description: data.description,
-      projectType: data.projectType,
-      tags: data.tags,
-    })
-  }
-
-  return (
-    // Your existing form JSX
-  )
-}
-*/

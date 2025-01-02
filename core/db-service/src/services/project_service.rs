@@ -1,5 +1,7 @@
+use crate::model::project::Project;
 use entity::project;
 use sea_orm::{ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, Set};
+
 pub struct ProjectService {
     db: DatabaseConnection,
 }
@@ -15,7 +17,7 @@ impl ProjectService {
         description: &str,
         tags: &str,
         r#type: &str,
-    ) -> Result<project::Model, DbErr> {
+    ) -> Result<Project, DbErr> {
         let project = project::ActiveModel {
             title: Set(title.to_string()),
             description: Set(description.to_string()),
@@ -24,7 +26,15 @@ impl ProjectService {
             ..Default::default()
         };
 
-        project.insert(&self.db).await
+        let model = project.insert(&self.db).await.unwrap();
+
+        Ok(Project {
+            id: model.id,
+            title: model.title,
+            description: model.description,
+            tags: model.tags,
+            r#type: model.r#type,
+        })
     }
 
     pub async fn find_project(&self, id: i32) -> Result<Option<project::Model>, DbErr> {
