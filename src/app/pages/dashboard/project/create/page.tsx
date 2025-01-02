@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select.tsx"
 import {Label} from "@/components/ui/label.tsx"
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx"
-import Layout from "@/app/pages/dashboard/layout.tsx";
+import Layout from "@/app/pages/dashboard/project/layout.tsx";
 
 type FormData = {
     projectName: string
@@ -52,7 +52,7 @@ export default function ProjectCreationScreen() {
 
     return (
         <Layout>
-            <Card className="w-full max-w-2xl mx-auto">
+            <Card className="w-full max-w-2xl mx-auto my-auto">
                 <CardHeader>
                     <CardTitle>Create New Project</CardTitle>
                 </CardHeader>

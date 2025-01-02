@@ -1,20 +1,20 @@
-import ChatStartInterface from "@/app/components/ChatStartInterface.tsx";
-import {SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
-import {AppSidebar} from "@/app/components/AppSideBar.tsx";
+import {SidebarTrigger} from "@/components/ui/sidebar";
 import MarkdownPanel from "@/app/components/markdown-panel.tsx";
+import ChatInterface from "@/app/components/ChatAppUI.tsx";
+import Layout from "@/app/pages/dashboard/project/layout.tsx";
 
 const ChatDashboard = () => {
 
     return (
-        <SidebarProvider>
-            <AppSidebar/>
+        <Layout>
             <main className={"bg-slate-50 w-full"}>
                 <div className={"flex flex-row"}>
                     <div className={"w-fit"}>
                         <SidebarTrigger/>
                     </div>
                     <div className={"flex-1"}>
-                        <ChatStartInterface/>
+                        {/*<ChatStartInterface/>*/}
+                        <ChatInterface/>
                     </div>
                     <div className={"bg-slate-50 w-full h-screen flex-1 pl-20 py-4"}>
                         <MarkdownPanel content={{
@@ -27,7 +27,7 @@ const ChatDashboard = () => {
                     </div>
                 </div>
             </main>
-        </SidebarProvider>
+        </Layout>
     );
 };
 
