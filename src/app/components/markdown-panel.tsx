@@ -1,121 +1,45 @@
-import { X } from 'lucide-react'
-import { Button } from "@/components/ui/button.tsx"
-import { ScrollArea } from "@/components/ui/scroll-area.tsx"
-import { PanelContent } from '../../types/panel.ts'
+import {ArrowLeft} from 'lucide-react'
+import {PanelContent} from "@/types/panel.ts";
 
 interface MarkdownPanelProps {
-  content: PanelContent
-  onClose: () => void
+    content: PanelContent
+    onClose: () => void
 }
 
-export function MarkdownPanel({ content, onClose }: MarkdownPanelProps) {
-  return (
-    <div className="w-[480px] bg-[#2A2A2A] border-l border-gray-800 flex flex-col">
-      <div className="flex items-center justify-between p-4 border-b border-gray-800">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="text-gray-400">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mr-2"
-            >
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-            {content.title}
-          </Button>
-        </div>
-        <Button variant="ghost" size="icon" onClick={onClose}>
-          <X className="h-4 w-4" />
-        </Button>
-      </div>
-      <ScrollArea className="flex-1 p-6">
-        <div className="prose prose-invert max-w-none">
-          <h2>Practice Platforms</h2>
-          <ul>
-            <li>PHP Exercises</li>
-            <li>Codecademy</li>
-            <li>W3Schools PHP</li>
-          </ul>
+export default function MarkdownPanel({content, onClose}: MarkdownPanelProps) {
+    return (
+        <div className="flex flex-col w-full h-full bg-gray-100 rounded-2xl">
+            {/* Header Bar */}
+            <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200 shadow-sm rounded-tl-2xl">
+                <div className="flex items-center space-x-2">
+                    <ArrowLeft
+                        className="w-5 h-5 text-gray-600 hover:text-gray-800 cursor-pointer"
+                        onClick={onClose}
+                    />
+                    <span className="text-gray-800 font-medium">Adaptive Sheet Composer</span>
+                </div>
+                <div className="flex space-x-2">
+                    <button className="px-3 py-1 text-sm text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors">
+                        Preview
+                    </button>
+                    <button className="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors">
+                        Code
+                    </button>
+                </div>
+            </div>
 
-          <h2>Best Practices</h2>
-          <ol>
-            <li>Follow PSR standards</li>
-            <li>Use prepared statements</li>
-            <li>Implement proper error handling</li>
-            <li>Secure configuration</li>
-            <li>Regular backups</li>
-            <li>Code documentation</li>
-          </ol>
+            {/* Main Content Area */}
+            <div className="flex-1 bg-white m-4 rounded-lg shadow-sm">
+                {content.content}
+            </div>
 
-          <h2>Tips for Success</h2>
-          <ul>
-            <li>Start with basic concepts</li>
-            <li>Build real-world projects</li>
-            <li>Learn a PHP framework (Laravel/Symfony)</li>
-            <li>Join PHP communities</li>
-            <li>Practice security consciousness</li>
-            <li>Keep up with PHP versions</li>
-          </ul>
-
-          <div className="mt-6 text-sm text-gray-400">
-            Remember: PHP development requires a strong understanding of both server-side and client-side concepts. 
-            Focus on security best practices as PHP applications often handle sensitive user data. 
-            Keep your development environment up-to-date and always validate user input.
-          </div>
+            {/* Footer */}
+            <div className="flex items-center justify-between px-4 py-2 bg-white border-t border-gray-200 shadow-sm rounded-bl-2xl">
+                <span className="text-xs text-gray-600">Last edited 2 minutes ago</span>
+                <button className="px-4 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors">
+                    Publish
+                </button>
+            </div>
         </div>
-      </ScrollArea>
-      <div className="border-t border-gray-800 p-4">
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-400">
-            Last edited {content.lastEdited || '7 hours ago'}
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="mr-2"
-              >
-                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-                <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
-              </svg>
-              Copy
-            </Button>
-            <Button variant="ghost" size="sm">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="mr-2"
-              >
-                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-              </svg>
-              Publish
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+    )
 }
-
