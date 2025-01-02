@@ -16,6 +16,7 @@ import {
 import {Label} from "@/components/ui/label.tsx"
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx"
 import Layout from "@/app/pages/dashboard/project/layout.tsx";
+import {useCreateProject} from "@/context/project/create.ts";
 
 type FormData = {
     projectName: string
@@ -29,10 +30,16 @@ const projectTypes = ['Web Application', 'Mobile App', 'Desktop Software', 'API'
 export default function ProjectCreationScreen() {
     const [tags, setTags] = useState<string[]>([])
     const {register, handleSubmit, control, formState: {errors}} = useForm<FormData>()
+    const {mutate: createProject, isPending} = useCreateProject()
+
 
     const onSubmit = (data: FormData) => {
-        console.log(data)
-        // Here you would typically send the data to your backend
+        createProject({
+            projectName: data.projectName,
+            description: data.description,
+            projectType: data.projectType,
+            tags: tags, // Use the tags from state
+        })
     }
 
     const handleAddTag = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -134,7 +141,7 @@ export default function ProjectCreationScreen() {
 
                         <CardFooter className="px-0 flex justify-end space-x-4">
                             <Button type="button" variant="outline">Cancel</Button>
-                            <Button type="submit">Create Project</Button>
+                            <Button type="submit" disabled={isPending}>Create Project</Button>
                         </CardFooter>
                     </form>
                 </CardContent>
