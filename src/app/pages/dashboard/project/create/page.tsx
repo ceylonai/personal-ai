@@ -1,6 +1,6 @@
 'use client'
 
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useForm, Controller} from 'react-hook-form'
 import {X} from 'lucide-react'
 import {Button} from "@/components/ui/button.tsx"
@@ -16,7 +16,8 @@ import {
 import {Label} from "@/components/ui/label.tsx"
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx"
 import Layout from "@/app/pages/dashboard/project/layout.tsx";
-import {useCreateProject} from "@/context/project/create.ts";
+import {useCreateProject, useProjectStore} from "@/context/project/create.ts";
+import {useNavigate} from "react-router";
 
 type FormData = {
     projectName: string
@@ -28,9 +29,18 @@ type FormData = {
 const projectTypes = ['Web Application', 'Mobile App', 'Desktop Software', 'API', 'Other']
 
 export default function ProjectCreationScreen() {
+    const router = useNavigate()
     const [tags, setTags] = useState<string[]>([])
     const {register, handleSubmit, control, formState: {errors}} = useForm<FormData>()
     const {mutate: createProject, isPending} = useCreateProject()
+    const currentProject = useProjectStore((state) => state.currentProject)
+
+
+    useEffect(() => {
+        if (currentProject?.id) {
+            router(`/project/view/${currentProject.id}`)
+        }
+    }, [currentProject, router])
 
 
     const onSubmit = (data: FormData) => {

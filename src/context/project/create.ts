@@ -44,7 +44,7 @@ export const useProjectStore = create<ProjectState>((set) => ({
     error: null,
 
     createProject: async (project: CreateProjectDTO) => {
-        set({isCreatingProject: true, error: null})
+        set({isCreatingProject: true, error: null, currentProject: null})
         try {
             const newProject = await projectApi.createProject(project)
 
