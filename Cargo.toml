@@ -1,5 +1,9 @@
 [workspace]
-members = [ "core/ai-service", "core/db-service",
+members = [
+    "core/ai-service",
+    "core/db-service",
+    "core/db-service/migration",
+    "core/db-service/entity",
     "src-tauri"
 ]
 resolver = "2"

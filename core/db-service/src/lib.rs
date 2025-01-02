@@ -1,8 +1,12 @@
-use std::time::Duration;
-use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
+mod services;
 
-pub async fn connect() -> Result<DatabaseConnection, DbErr> {
-    let mut opt = ConnectOptions::new("sqlite://db.sqlite?mode=rwc");
+use migration::{Migrator, MigratorTrait};
+
+use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
+use std::time::Duration;
+
+pub async fn connect(db_path: &str) -> Result<DatabaseConnection, DbErr> {
+    let mut opt = ConnectOptions::new(db_path);
     opt.max_connections(100)
         .min_connections(5)
         .connect_timeout(Duration::from_secs(8))
@@ -14,20 +18,24 @@ pub async fn connect() -> Result<DatabaseConnection, DbErr> {
         .set_schema_search_path("my_schema"); // Setting default PostgreSQL schema
 
     let db = Database::connect(opt).await;
-
+    if db.is_err() {
+        println!("Database connection error: {:#?}", db);
+        return db;
+    }
+    Migrator::up(db.as_ref().unwrap(), None).await?;
     db
 }
 
 #[cfg(test)]
 mod tests {
-    use sea_orm::{DatabaseConnection, DbErr};
     use super::*;
+    use sea_orm::{DatabaseConnection, DbErr};
     use tokio;
 
     #[tokio::test]
     async fn test_database_connection() {
         // Test successful connection
-        let result = connect().await;
+        let result = connect("sqlite://db-test-connection.sqlite?mode=rwc").await;
 
         println!("Database connection result: {:#?}", result);
 
@@ -58,6 +66,9 @@ mod tests {
 
         // Test invalid connection string
         let result = connect_with_url("sqlite://nonexistent/db.sqlite").await;
-        assert!(result.is_err(), "Connection to invalid database should fail");
+        assert!(
+            result.is_err(),
+            "Connection to invalid database should fail"
+        );
     }
 }
