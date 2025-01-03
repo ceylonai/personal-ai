@@ -29,11 +29,8 @@ const projectApi = {
     },
 
     getProjects: async (): Promise<Project[]> => {
-        const response = await fetch('/api/projects')
-        if (!response.ok) {
-            throw new Error('Failed to fetch projects')
-        }
-        return response.json()
+        // get_projects
+        return await invoke<Project[]>("get_projects")
     },
 }
 

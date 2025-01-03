@@ -1,6 +1,6 @@
 use crate::model::project::Project;
 use entity::project;
-use sea_orm::{ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, Set};
+use sea_orm::{ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, QueryOrder, Set};
 
 pub struct ProjectService {
     db: DatabaseConnection,
@@ -42,7 +42,10 @@ impl ProjectService {
     }
 
     pub async fn find_all_projects(&self) -> Result<Vec<project::Model>, DbErr> {
-        project::Entity::find().all(&self.db).await
+        project::Entity::find()
+            .order_by_desc(project::Column::CreatedAt)
+            .all(&self.db)
+            .await
     }
 }
 

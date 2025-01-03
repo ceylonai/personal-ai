@@ -1,9 +1,9 @@
 // Types
 export type Project = {
     id: string
-    projectName: string
+    title: string
     description: string
-    projectType: string
+    type: string
     tags: string[]
     createdAt: string
     updatedAt: string
